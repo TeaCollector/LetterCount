@@ -1,6 +1,6 @@
 package ru.coffee.lettercount.controller;
 
-import jdk.jfr.ContentType;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +20,15 @@ public class LetterController {
         this.letterCounter = letterCounter;
     }
 
+    @SneakyThrows
     @GetMapping("/count")
     public ResponseEntity<Map<Character, Long>> countLetter(
-            @RequestParam(required = false, defaultValue = "Hello world") String sequence) {
+            @RequestParam(required = false, defaultValue = "Hello world", value = "seq") String sequence) {
 
-        Map<Character, Long> letterMap = letterCounter.count(sequence);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(letterMap);
+            Map<Character, Long> letterMap = letterCounter.count(sequence);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(letterMap);
     }
 }
